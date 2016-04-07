@@ -1,7 +1,7 @@
 name: OreLogger
 version: 2.3
 author: Daedalus
-main: com.daedalus.orelog.main
+main: com.daedalus.orelog.Main
 commands:
       ol:
         description: Base command for OreLogger.

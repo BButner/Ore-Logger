@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class commands implements CommandExecutor {
+public class Commands implements CommandExecutor {
     private static String cmdSender;
     public static List<String> validOre = new ArrayList<>(Arrays.asList("diamond", "iron", "gold", "lapis", "coal", "redstone", "emerald"));
     public static ArrayList<String> enabledPlayerOre = new ArrayList<>();
@@ -18,7 +18,7 @@ public class commands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("ol")) {
             if (args.length == 0) {
-                sender.sendMessage("No args!");
+                sender.sendMessage("Please specify an " + ChatColor.YELLOW + "ore" + ChatColor.WHITE + ".");
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("enable")) {
@@ -27,13 +27,15 @@ public class commands implements CommandExecutor {
                     }
                     sender.sendMessage("All ore notifications enabled!");
                     return true;
-                } else if (args[0].equalsIgnoreCase("disable")) {
+                }
+                if (args[0].equalsIgnoreCase("disable")) {
                     for (int i = 0; i < 7; i++) {
                         enabledPlayerOre.remove(sender.toString() + validOre.get(i));
                     }
                     sender.sendMessage("All ore notifications disabled!");
                     return true;
-                } else if (validOre.contains(args[0])) {
+                }
+                if (validOre.contains(args[0])) {
                     cmdSender = sender.toString();
                     if (!enabledPlayerOre.contains(sender + args[0])) {
                         enabledPlayerOre.add(sender + args[0]);

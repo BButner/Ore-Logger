@@ -13,9 +13,8 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class logging implements Listener {
-    private String logType;
-    commands cmd = new commands();
+public class Logging implements Listener {
+    Commands cmd = new Commands();
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) throws IOException {
@@ -27,12 +26,8 @@ public class logging implements Listener {
         int z = minedBlock.getZ();
         Block block = player.getWorld().getBlockAt(player.getLocation().getBlockX(), bY + 1, player.getLocation().getBlockZ());
 
-        File playerFolder = new File(Bukkit.getPluginManager().getPlugin("OreLogger").getDataFolder() + "/Player Logs");
         File logFile = new File(Bukkit.getPluginManager().getPlugin("OreLogger").getDataFolder() + "/Player Logs/" + player.getName());
 
-        if (!playerFolder.exists()) {
-            playerFolder.mkdir();
-        }
         if (!logFile.exists()) {
             logFile.mkdir();
         }
@@ -58,7 +53,7 @@ public class logging implements Listener {
                 }
             }
 
-            logType = minedBlock.getType().toString();
+            String logType = minedBlock.getType().toString();
 
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(logFile + File.separator + logType + ".txt", true)));
 
@@ -66,6 +61,8 @@ public class logging implements Listener {
             out.close();
         }
     }
+
+
 
     private String currentDate() {
         SimpleDateFormat curDate = new SimpleDateFormat("dd-MM | HH:mm:ss");
