@@ -6,17 +6,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class commands implements CommandExecutor {
-    private static boolean diamond = false;
-    private static boolean iron = false;
-    private static boolean gold = false;
-    private static boolean lapis = false;
-    private static boolean coal = false;
-    private static boolean redstone = false;
-    private static boolean emerald = false;
-
-    private static ArrayList<String> hasEnabled = new ArrayList<>();
+    private static String cmdSender;
+    public static List<String> validOre = new ArrayList<>(Arrays.asList("diamond", "iron", "gold", "lapis", "coal", "redstone", "emerald"));
+    public static ArrayList<String> enabledPlayerOre = new ArrayList<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -26,112 +22,25 @@ public class commands implements CommandExecutor {
                 return true;
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("enable")) {
-                    hasEnabled.add(sender.getName());
+                    for (int i = 0; i < 7; i++) {
+                        enabledPlayerOre.add(sender.toString() + validOre.get(i));
+                    }
                     sender.sendMessage("All ore notifications enabled!");
                     return true;
                 } else if (args[0].equalsIgnoreCase("disable")) {
+                    for (int i = 0; i < 7; i++) {
+                        enabledPlayerOre.remove(sender.toString() + validOre.get(i));
+                    }
                     sender.sendMessage("All ore notifications disabled!");
-                    hasEnabled.remove(sender.getName());
-                    diamond = false; iron = false; gold = false; lapis = false; coal = false; redstone = false; emerald = false;
                     return true;
-                }
-                if (args[0].equalsIgnoreCase("Diamond")) {
-                    if (!diamond) {
-                        diamond = true;
-                        if(!hasEnabled.contains(sender.getName() + "DIAMOND")) {
-                            hasEnabled.add(sender.getName() + "DIAMOND");
-                        }
-                        sender.sendMessage(ChatColor.AQUA + "Diamond " + ChatColor.WHITE + "notifications enabled.");
-                    } else if (diamond) {
-                        diamond = false;
-                        if(hasEnabled.contains(sender.getName() + "DIAMOND")) {
-                            hasEnabled.remove(sender.getName() + "DIAMOND");
-                        }
-                        sender.sendMessage(ChatColor.AQUA + "Diamond " + ChatColor.WHITE + "notifications disabled.");
-                    }
-                } else if (args[0].equalsIgnoreCase("Iron")) {
-                    if (!iron) {
-                        iron = true;
-                        if(!hasEnabled.contains(sender.getName() + "IRON")) {
-                            hasEnabled.add(sender.getName() + "IRON");
-                        }
-                        sender.sendMessage(ChatColor.GRAY + "Iron " + ChatColor.WHITE + "notifications enabled.");
-                    } else if (iron) {
-                        iron = false;
-                        if(hasEnabled.contains(sender.getName() + "IRON")) {
-                            hasEnabled.remove(sender.getName() + "IRON");
-                        }
-                        sender.sendMessage(ChatColor.GRAY + "Iron " + ChatColor.WHITE + "notifications disabled.");
-                    }
-                } else if (args[0].equalsIgnoreCase("Gold")) {
-                    if (!gold) {
-                        gold = true;
-                        if(!hasEnabled.contains(sender.getName() + "GOLD")) {
-                            hasEnabled.add(sender.getName() + "GOLD");
-                        }
-                        sender.sendMessage(ChatColor.YELLOW + "Gold " + ChatColor.WHITE + "notifications enabled.");
-                    } else if (gold) {
-                        gold = false;
-                        if(hasEnabled.contains(sender.getName() + "GOLD")) {
-                            hasEnabled.remove(sender.getName() + "GOLD");
-                        }
-                        sender.sendMessage(ChatColor.YELLOW + "Gold " + ChatColor.WHITE + "notifications disabled.");
-                    }
-                } else if (args[0].equalsIgnoreCase("Lapis")) {
-                    if (!lapis) {
-                        lapis = true;
-                        if(!hasEnabled.contains(sender.getName() + "LAPIS")) {
-                            hasEnabled.add(sender.getName() + "LAPIS");
-                        }
-                        sender.sendMessage(ChatColor.BLUE + "LAPIS " + ChatColor.WHITE + "notifications enabled.");
-                    } else if (lapis) {
-                        lapis = false;
-                        if(hasEnabled.contains(sender.getName() + "LAPIS")) {
-                            hasEnabled.remove(sender.getName() + "LAPIS");
-                        }
-                        sender.sendMessage(ChatColor.BLUE + "LAPIS " + ChatColor.WHITE + "notifications disabled.");
-                    }
-                } else if (args[0].equalsIgnoreCase("Coal")) {
-                    if (!coal) {
-                        coal = true;
-                        if(!hasEnabled.contains(sender.getName() + "COAL")) {
-                            hasEnabled.add(sender.getName() + "COAL");
-                        }
-                        sender.sendMessage(ChatColor.DARK_GRAY + "Coal " + ChatColor.WHITE + "notifications enabled.");
-                    } else if (coal) {
-                        coal = false;
-                        if(hasEnabled.contains(sender.getName() + "COAL")) {
-                            hasEnabled.remove(sender.getName() + "COAL");
-                        }
-                        sender.sendMessage(ChatColor.DARK_GRAY + "Coal " + ChatColor.WHITE + "notifications disabled.");
-                    }
-                } else if (args[0].equalsIgnoreCase("Redstone")) {
-                    if (!redstone) {
-                        redstone = true;
-                        if(!hasEnabled.contains(sender.getName() + "REDSTONE")) {
-                            hasEnabled.add(sender.getName() + "REDSTONE");
-                        }
-                        sender.sendMessage(ChatColor.RED + "Redstone " + ChatColor.WHITE + "notifications enabled.");
-                    } else if (redstone) {
-                        redstone = false;
-                        if(hasEnabled.contains(sender.getName() + "REDSTONE")) {
-                            hasEnabled.remove(sender.getName() + "REDSTONE");
-                        }
-                        sender.sendMessage(ChatColor.RED + "Redstone " + ChatColor.WHITE + "notifications disabled.");
-                    }
-                } else if (args[0].equalsIgnoreCase("Emerald")) {
-                    if (!emerald) {
-                        emerald = true;
-                        if(!hasEnabled.contains(sender.getName() + "EMERALD")) {
-                            hasEnabled.add(sender.getName() + "EMERALD");
-                        }
-                        sender.sendMessage(ChatColor.GREEN + "Emerald " + ChatColor.WHITE + "notifications enabled.");
-                    } else if (emerald) {
-                        emerald = false;
-                        if(hasEnabled.contains(sender.getName() + "EMERALD")) {
-                            hasEnabled.remove(sender.getName() + "EMERALD");
-                        }
-                        sender.sendMessage(ChatColor.GREEN + "Emerald " + ChatColor.WHITE + "notifications disabled.");
+                } else if (validOre.contains(args[0])) {
+                    cmdSender = sender.toString();
+                    if (!enabledPlayerOre.contains(sender + args[0])) {
+                        enabledPlayerOre.add(sender + args[0]);
+                        sender.sendMessage("Enabled notifications for " + ChatColor.YELLOW + args[0] + " ore" + ChatColor.WHITE + ".");
+                    } else {
+                        enabledPlayerOre.remove(sender + args[0]);
+                        sender.sendMessage("Disabled notifications for " + ChatColor.YELLOW + args[0] + " ore" + ChatColor.WHITE + ".");
                     }
                 }
                 return true;
@@ -140,31 +49,7 @@ public class commands implements CommandExecutor {
         }
         return false;
     }
-
-    public ArrayList<String> isEnabled() {
-        return hasEnabled;
+    public String getSender() {
+        return cmdSender;
     }
-
-    public boolean getDiamond() {
-        return diamond;
-    }
-    public boolean getIron() {
-        return iron;
-    }
-    public boolean getGold() {
-        return gold;
-    }
-    public boolean getLapis() {
-        return lapis;
-    }
-    public boolean getCoal() {
-        return coal;
-    }
-    public boolean getRedstone() {
-        return redstone;
-    }
-    public boolean getEmerald() {
-        return emerald;
-    }
-
 }

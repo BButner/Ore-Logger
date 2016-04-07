@@ -15,9 +15,7 @@ import java.util.Date;
 
 public class logging implements Listener {
     private String logType;
-
     commands cmd = new commands();
-    File playerLog;
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) throws IOException {
@@ -47,25 +45,16 @@ public class logging implements Listener {
             minedBlock.getType() == Material.GLOWING_REDSTONE_ORE ||
             minedBlock.getType() == Material.EMERALD_ORE) {
 
+            String ore = minedBlock.getType().toString();
+            ore = ore.replace("Mineral.", "");
+            ore = ore.replace("ORE", "");
+            ore = ore.replace("GLOWING", "");
+            ore = ore.replace("_", "");
+            ore= ore.toLowerCase();
+
             if (player.isOp() || player.hasPermission("orelogger.notifications")) {
-                if (cmd.isEnabled().contains(player.getName())) {
+                if (cmd.enabledPlayerOre.contains(cmd.getSender() + ore)) {
                     player.sendMessage(ChatColor.YELLOW + player.getName() + ChatColor.WHITE + " just mined " + ChatColor.YELLOW + minedBlock.getType() + ChatColor.WHITE + " @ x" + x + " y" + y + " z" + z + ".");
-                } else if (cmd.getDiamond() ||
-                           cmd.getIron() ||
-                           cmd.getGold() ||
-                           cmd.getLapis() ||
-                           cmd.getCoal() ||
-                           cmd.getRedstone() ||
-                           cmd.getEmerald()) {
-                    if (cmd.isEnabled().contains(player.getName() + "DIAMOND") ||
-                        cmd.isEnabled().contains(player.getName() + "IRON") ||
-                        cmd.isEnabled().contains(player.getName() + "GOLD") ||
-                        cmd.isEnabled().contains(player.getName() + "LAPIS") ||
-                        cmd.isEnabled().contains(player.getName() + "COAL") ||
-                        cmd.isEnabled().contains(player.getName() + "REDSTONE") ||
-                        cmd.isEnabled().contains(player.getName() + "EMERALD")) {
-                        player.sendMessage(ChatColor.YELLOW + player.getName() + ChatColor.WHITE + " just mined " + ChatColor.YELLOW + minedBlock.getType() + ChatColor.WHITE + " @ x" + x + " y" + y + " z" + z + ".");
-                    }
                 }
             }
 

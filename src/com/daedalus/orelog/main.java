@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class main extends JavaPlugin {
 
     Plugin plugin = this;
+    commands cmd = new commands();
 
     @Override
     public void onEnable() {
