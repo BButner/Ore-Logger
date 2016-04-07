@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="OreLogger">
+    <output-path>$PROJECT_DIR$/../OreLogger/</output-path>
+    <root id="archive" name="OreLogger.jar">
+      <element id="module-output" name="OreLog" />
+    </root>
+  </artifact>
+</component>

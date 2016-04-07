@@ -1,0 +1,16 @@
+name: OreLogger
+version: 2.3
+author: Daedalus
+main: com.daedalus.orelog.main
+commands:
+      ol:
+        description: Base command for OreLogger.
+        usage: /ol
+      toggle:
+        description: Enables notifications for all ores.
+        usage: /ol enable
+        permission: orelogger.notifications
+      ore:
+        description: Enables notifications for a specific ore (Diamond, Iron, Gold, Lapis, Coal, or Redstone)
+        usage: /ol ORE
+        permission: orelogger.notifications
