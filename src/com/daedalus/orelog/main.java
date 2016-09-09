@@ -14,10 +14,11 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         getLogger().info("OreLogger activated!");
         getCommand("ol").setExecutor(new Commands());
+        getCommand("oreent").setExecutor(new Commands());
 
         File playerFolder = new File(Bukkit.getPluginManager().getPlugin("OreLogger").getDataFolder() + "/Player Logs");
 
-        plugin.getServer().getPluginManager().registerEvents(new Logging(), this);
+        plugin.getServer().getPluginManager().registerEvents(new BlockBreak(), this);
         if (!getDataFolder().exists()) {
             getDataFolder().mkdir();
         }

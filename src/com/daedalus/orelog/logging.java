@@ -1,71 +1,40 @@
 package com.daedalus.orelog;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Logging implements Listener {
-    Commands cmd = new Commands();
-
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) throws IOException {
-        Block minedBlock = event.getBlock();
-        Player player = event.getPlayer();
-        int bY = player.getLocation().getBlockY();
-        int x = minedBlock.getX();
-        int y = minedBlock.getY();
-        int z = minedBlock.getZ();
-        Block block = player.getWorld().getBlockAt(player.getLocation().getBlockX(), bY + 1, player.getLocation().getBlockZ());
-
-        File logFile = new File(Bukkit.getPluginManager().getPlugin("OreLogger").getDataFolder() + "/Player Logs/" + player.getName());
+public class Logging {
+    public void createLog(String playerName, String oreBlock, int lightLevel, int x, int y, int z) throws IOException {
+        File logFile = new File(Bukkit.getPluginManager().getPlugin("OreLogger").getDataFolder() + "/Player Logs/" + playerName);
 
         if (!logFile.exists()) {
             logFile.mkdir();
         }
 
-        if (minedBlock.getType() == Material.DIAMOND_ORE ||
-            minedBlock.getType() == Material.IRON_ORE ||
-            minedBlock.getType() == Material.GOLD_ORE ||
-            minedBlock.getType() == Material.LAPIS_ORE ||
-            minedBlock.getType() == Material.COAL_ORE ||
-            minedBlock.getType() == Material.GLOWING_REDSTONE_ORE ||
-            minedBlock.getType() == Material.EMERALD_ORE) {
+        PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(logFile + File.separator + oreBlock + ".txt", true)));
 
-            String ore = minedBlock.getType().toString();
-            ore = ore.replace("Mineral.", "");
-            ore = ore.replace("ORE", "");
-            ore = ore.replace("GLOWING", "");
-            ore = ore.replace("_", "");
-            ore= ore.toLowerCase();
-
-            if (player.isOp() || player.hasPermission("orelogger.notifications")) {
-                if (cmd.enabledPlayerOre.contains(cmd.getSender() + ore)) {
-                    player.sendMessage(ChatColor.YELLOW + player.getName() + ChatColor.WHITE + " just mined " + ChatColor.YELLOW + minedBlock.getType() + ChatColor.WHITE + " @ x" + x + " y" + y + " z" + z + ".");
-                }
-            }
-
-            String logType = minedBlock.getType().toString();
-
-            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(logFile + File.separator + logType + ".txt", true)));
-
-            out.println("[" + currentDate() + "] " + player.getName() + " mined " + minedBlock.getType() + " at lightlevel " + block.getLightLevel() + " @ x" + x + " y" + y + " z" + z + ".");
-            out.close();
-        }
+        out.println(playerName + " mined " + oreBlock + " at lightlevel " + lightLevel + " @ x" + x + " y" + y + " z" + z + ".");
+        out.close();
     }
 
+    public void entityLog(String entity) throws IOException {
+        File entityFile = new File(Bukkit.getPluginManager().getPlugin("OreLogger").getDataFolder() + "/Entities/");
 
+        if (!entityFile.exists()) {
+            entityFile.mkdir();
+        }
+
+        PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(entityFile + File.separator + "Entities.txt", true)));
+
+        out.println(entity);
+        out.close();
+    }
 
     private String currentDate() {
-        SimpleDateFormat curDate = new SimpleDateFormat("dd-MM | HH:mm:ss");
+        SimpleDateFormat curDate = new SimpleDateFormat("[dd-MM | HH:mm:ss]");
         Date now = new Date();
         return curDate.format(now);
     }

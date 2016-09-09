@@ -14,3 +14,7 @@ commands:
         description: Enables notifications for a specific ore (Diamond, Iron, Gold, Lapis, Coal, or Redstone)
         usage: /ol ORE
         permission: orelogger.notifications
+      oreent:
+        description: Lists all the entities in the world.
+        usage: /oreent
+        permission: orelogger.entities
